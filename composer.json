@@ -1,0 +1,14 @@
+{
+    "config": {
+        "vendor-dir": "public/vendor"
+    },
+    "autoload": {
+        "classmap": [
+            "public/"
+        ]
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.5",
+        "hashids/hashids": "^5.0"
+    }
+}
