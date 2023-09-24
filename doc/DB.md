@@ -1,12 +1,10 @@
 # DB系
 
-以下の5つのテーブルから構成されます。
+以下の3つのテーブルから構成されます。
 
 - visitor
 - exhibition
 - path
-- visitor_path
-- exhibition_path
 
 ## visitor テーブル
 
@@ -45,41 +43,17 @@ CREATE TABLE IF NOT EXISTS exhibition (
 | カラム名 | データ型 | 備考 |
 | --- | --- | --- |
 | path_id | INT | PK, auto increment |
+| uid | INT | NOT NULL |
+| exhibition_id | INT | NOT NULL |
 | datetime | DATETIME | NOT NULL, CURRENT TIME STAMP |
 | flag | INT | NOT NULL, 0:指定なし, 1:退場指定, 2:入場指定 |
 
 ```sql
 CREATE TABLE IF NOT EXISTS path (
     path_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    datetime DATETIME(3) DEFAULT CURRENT_TIMESTAMP,
+    uid INT NOT NULL,
+    exhibition_id INT NOT NULL,
+    datetime DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
     flag INT NOT NULL CHECK (0 <= flag AND flag <= 2)
-);
-```
-
-## visitor_path テーブル
-
-| カラム名 | データ型 | 備考 |
-| --- | --- | --- |
-| path_id | INT | PK |
-| uid | INT | NOT NULL |
-
-```sql
-CREATE TABLE IF NOT EXISTS visitor (
-    path_id INT NOT NULL PRIMARY KEY,
-    uid INT NOT NULL
-);
-```
-
-## exhibition_path テーブル
-
-| カラム名 | データ型 | 備考 |
-| --- | --- | --- |
-| path_id | INT | PK |
-| exhibition_id | INT | NOT NULL |
-
-```sql
-CREATE TABLE IF NOT EXISTS visitor (
-    path_id INT NOT NULL PRIMARY KEY,
-    exhibition_id INT NOT NULL
 );
 ```
