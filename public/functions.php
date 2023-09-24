@@ -58,10 +58,6 @@ class DBControlClass
             $this->dbh->query($q);
             $q = "DROP TABLE IF EXISTS path";
             $this->dbh->query($q);
-            $q = "DROP TABLE IF EXISTS visitor_path";
-            $this->dbh->query($q);
-            $q = "DROP TABLE IF EXISTS exhibition_path";
-            $this->dbh->query($q);
 
             $q = "CREATE TABLE IF NOT EXISTS visitor (
                 uid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
