@@ -1,4 +1,5 @@
 <?php
+
 require $_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php";
 use Hashids\Hashids;
 
@@ -84,14 +85,14 @@ class DBControlClass
             );";
             $this->dbh->query($q);
 
-            for ($i=0; $i<15000; $i++) {
+            for ($i = 0; $i < 15000; $i++) {
                 $this->dbh->query("INSERT INTO visitor (status) VALUES (0)");
             }
 
             $q = "INSERT INTO exhibition (category, title, club_name) VALUES ";
             $f = fopen("./exhibition.csv", 'r');
             while ($line = fgetcsv($f)) {
-                if ($line[0]=="企画id") {
+                if ($line[0] == "企画id") {
                     continue;
                 }
                 $q .= "('{$line[1]}', '{$line[3]}', '{$line[2]}'),";
@@ -181,7 +182,7 @@ class QRCheckClass extends DBControlClass
         return intval($id[0]);
     }
 
-    public function get_status():int
+    public function get_status(): int
     {
         $result = $this->execute("SELECT status FROM visitor WHERE uid = :uid", ['uid' => $this->uid]);
         return $result->fetchAll()[0]['status'];
@@ -191,10 +192,11 @@ class QRCheckClass extends DBControlClass
     {
         $result = $this->execute("SELECT exhibition_id FROM path WHERE uid = :uid", ['uid' => $this->uid]);
         $list = $result->fetchAll();
-        return $list[$result->rowCount() -1]['exhibition_id'];
+        return $list[$result->rowCount() - 1]['exhibition_id'];
     }
 
-    public function insert_path($exhibition_id, $flag){
+    public function insert_path($exhibition_id, $flag)
+    {
         $this->execute("INSERT INTO path (uid, exhibition_id, flag) VALUES(:uid, :exhibition_id, :flag)", ['uid' => $this->uid, 'exhibition_id' => $exhibition_id, 'flag' => $flag]);
         $this->execute("UPDATE visitor SET status = :flag WHERE uid = :uid", ['uid' => $this->uid, 'flag' => $flag]);
     }
