@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS exhibition (
 | exhibition_id | INT | NOT NULL |
 | datetime | DATETIME | NOT NULL, CURRENT TIME STAMP |
 | flag | INT | NOT NULL, 0:指定なし, 1:退場指定, 2:入場指定 |
+| auto | BOOLEAN | true:つじつま合わせの自動追加 |
 
 ```sql
 CREATE TABLE IF NOT EXISTS path (
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS path (
     uid INT NOT NULL,
     exhibition_id INT NOT NULL,
     datetime DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
-    flag INT NOT NULL CHECK (0 <= flag AND flag <= 2)
+    flag INT NOT NULL CHECK (0 <= flag AND flag <= 2),
+    auto BOOLEAN DEFAULT flase
 );
 ```

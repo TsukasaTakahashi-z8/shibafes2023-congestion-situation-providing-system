@@ -7,13 +7,13 @@ if(isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
         $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
         switch($_POST['re']) {
             case "2": //入場
-                $qrcheck->insert_path($previous_exhibition_id, 1);
+                $qrcheck->insert_path($previous_exhibition_id, 1, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 2);
                 header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
                 exit();
 
             case "1": //退場
-                $qrcheck->insert_path($qrcheck->exhibition_id, 2);
+                $qrcheck->insert_path($qrcheck->exhibition_id, 2, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 1);
                 header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
                 exit();

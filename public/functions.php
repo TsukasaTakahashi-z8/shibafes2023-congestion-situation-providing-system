@@ -81,7 +81,8 @@ class DBControlClass
                 uid INT NOT NULL,
                 exhibition_id INT NOT NULL,
                 datetime DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
-                flag INT NOT NULL CHECK (0 <= flag AND flag <= 2)
+                flag INT NOT NULL CHECK (0 <= flag AND flag <= 2),
+                auto BOOLEAN DEFAULT false
             );";
             $this->dbh->query($q);
 
@@ -195,9 +196,14 @@ class QRCheckClass extends DBControlClass
         return $list[$result->rowCount() - 1]['exhibition_id'];
     }
 
-    public function insert_path($exhibition_id, $flag)
+    public function insert_path($exhibition_id, $flag, $auto = false)
     {
+        if ($auto) {
+        $this->execute("INSERT INTO path (uid, exhibition_id, flag, auto) VALUES(:uid, :exhibition_id, :flag, true)", ['uid' => $this->uid, 'exhibition_id' => $exhibition_id, 'flag' => $flag]);
+        } else {
         $this->execute("INSERT INTO path (uid, exhibition_id, flag) VALUES(:uid, :exhibition_id, :flag)", ['uid' => $this->uid, 'exhibition_id' => $exhibition_id, 'flag' => $flag]);
+        }
+
         $this->execute("UPDATE visitor SET status = :flag WHERE uid = :uid", ['uid' => $this->uid, 'flag' => $flag]);
     }
 }
