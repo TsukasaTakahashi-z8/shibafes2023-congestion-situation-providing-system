@@ -10,14 +10,14 @@ if(isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
             case "2": //入場
                 $qrcheck->insert_path($previous_exhibition_id, 1, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 2);
-                header("Location: /qr/index.html?exhibition_id={$_GET['exhibition_id']}");
+                header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
                 exit();
 
             case "1": //退場
                 $qrcheck->insert_path($qrcheck->exhibition_id, 1, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 2, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 1);
-                header("Location: /qr/index.html?exhibition_id={$_GET['exhibition_id']}");
+                header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
                 exit();
         }
     } else {
