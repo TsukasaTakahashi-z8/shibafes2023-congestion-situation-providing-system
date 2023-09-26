@@ -1,6 +1,7 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT']."/functions.php";
 
+// 入場中かつ、違う企画のとき
 if(isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
     if(isset($_POST['re'])) {
         $qrcheck = new QRCheckClass($_GET['uid'], $_GET['exhibition_id']);
@@ -13,6 +14,7 @@ if(isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
                 exit();
 
             case "1": //退場
+                $qrcheck->insert_path($qrcheck->exhibition_id, 1, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 2, true);
                 $qrcheck->insert_path($qrcheck->exhibition_id, 1);
                 header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");

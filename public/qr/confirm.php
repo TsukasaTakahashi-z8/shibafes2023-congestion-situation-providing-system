@@ -14,11 +14,6 @@ if (isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
         case 1: //退場中
             $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
 
-            if ($previous_exhibition_id == $qrcheck->exhibition_id) {
-                header("Location: /qr/select.php?exhibition_id={$_GET['exhibition_id']}&uid={$_GET['uid']}");
-                exit();
-            }
-
             $qrcheck->insert_path($qrcheck->exhibition_id, 2);
             header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
             exit();
