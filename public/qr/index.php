@@ -49,6 +49,7 @@ if (empty($_GET['result'])) {
         var outputData = document.getElementById("outputData");
         var outputElement = document.getElementById("output")
 
+            
         function drawLine(begin, end, color) {
             canvas.beginPath();
             canvas.moveTo(begin.x, begin.y);
@@ -84,6 +85,7 @@ if (empty($_GET['result'])) {
                     outputMessage.hidden = true;
                     if (code.data.substr(0, 53) == "https://shibafufes68th.main.jp/vote/voteform.php?uid=") {
                         window.location.href = "./confirm.php" + location.search + "&uid=" + code.data.substr(53);
+                        return 0;
                     }
                 } else {
                     outputMessage.hidden = false;
