@@ -122,6 +122,29 @@ class DBControlClass
         }
     }
 
+    public function get_exhibition_list()
+    {
+        try {
+            $res = $this->dbh->query("SELECT * FROM exhibition WHERE 1;");
+            $amount_of_exhibitions = $res->rowCount();
+
+            $array = array();
+
+            for ($i = 1; $i <= $amount_of_exhibitions; $i++) {
+                $in = $this->execute("SELECT * FROM path WHERE exhibition_id = :exhibition_id AND flag = 2", ['exhibition_id' => $i])->rowCount();
+                $out = $this->execute("SELECT * FROM path WHERE exhibition_id = :exhibition_id AND flag = 1", ['exhibition_id' => $i])->rowCount();
+                $array[$i]['num'] = $in - $out;
+                $exhibition = $this->execute("SELECT * FROM exhibition WHERE id = :exhibition_id", ['exhibition_id' => $i])->fetchAll()[0];
+                $array[$i]['title'] = $exhibition['title'];
+                $array[$i]['club_name'] = $exhibition['club_name'];
+            }
+
+            return $array;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
+    }
 
     public function get_exhibition_num_list()
     {
