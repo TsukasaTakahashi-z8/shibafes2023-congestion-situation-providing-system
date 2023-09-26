@@ -2,19 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>QRリーダー(プロトタイプ)</title>
-    <script src="./jsQR.js"></script> 
-    <script src="./sql.js"></script>
+    <title>出展団体用QRコードリーダ</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script> 
     <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
 </head>
 <body>
     <div id="particles-js"></div>
     <h1>来場者統計システム</h1>
+    <h2>てっけん</h2>
     <div id="loadingMessage">🎥 カメラのアクセスが許可されていません。<br> (このサイトのカメラへのアクセスを許可してください。)<br>許可をしてもこの表示が出る場合は、他のアプリケーションでカメラが使用されていないか、確認してください。</div>
     <canvas id="canvas" hidden></canvas>
     <div id="output" hidden>
-        <div id="outputMessage">QRコードをかざしてください。</div>
+        <div id="outputMessage">来場者のパンフレット裏にある、QRコードをかざしてください。</div>
         <div hidden><span id="outputDate">Data:</span>&emsp; <span id="outputData"></span></div>
     </div>
     <script>

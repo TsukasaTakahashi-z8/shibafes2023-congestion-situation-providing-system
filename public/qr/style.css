@@ -1,46 +1,48 @@
-    body {
-      font-family: 'Ropa Sans', sans-serif;
-      color: #333;
-      max-width: 640px;
-      margin: 0 auto;
-      position: relative;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap');
 
-    #githubLink {
-      position: absolute;
-      right: 0;
-      top: 12px;
-      color: #2D99FF;
-    }
- 
-    h1 {
-      margin: 10px 0;
-      font-size: 40px;
-    }
- 
-    #loadingMessage {
-      text-align: center;
-      padding: 40px;
-      background-color: #eee;
-    }
- 
-    #canvas {
-      width: 100%;
-    }
- 
-    #output {
-      margin-top: 20px;
-      background: #eee;
-      padding: 10px;
-      padding-bottom: 0;
-    }
- 
-    #output div {
-      padding-bottom: 10px;
-      word-wrap: break-word;
-    }
+body {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    color: #333;
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+}
 
-    #noQRFound {
-      text-align: center;
-    }
+h1 {
+    margin: 0 0 48px 0;
+    text-align: center;
+    font-size: 50px;
+    border-bottom: 5px solid #2F89FC;
+}
+
+h2 {
+    text-align: center;
+}
+
+#loadingMessage {
+    text-align: center;
+    padding: 40px;
+    background-color: #eee;
+    font-weight: 500;
+}
+
+#canvas {
+    width: 100%;
+}
+
+#output {
+    margin-top: 20px;
+    background: #eee;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+#output div {
+    padding-bottom: 10px;
+    word-wrap: break-word;
+}
+
+#noQRFound {
+    text-align: center;
+}
 
