@@ -1,21 +1,37 @@
 <?php
-ini_set('display_errors', "On");
-require "../functions.php";
+require $_SERVER['DOCUMENT_ROOT']."/functions.php";
 
 if (isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
-    $db = new DBControlClass();
+    $qrcheck = new QRCheckClass($_GET['uid'], $_GET['exhibition_id']);
 
-    $uidClass = new UidClass($_POST['uid']);
-    $uid = $uidClass->get_id();
-
-    echo $db->get_status($uid);
-    switch ($db->get_status($uid)) {
+    switch ($qrcheck->get_status($qrcheck->uid)) {
     case 0:
-        // 入場処理
-    case 1:
-        $previous_exhibition_id = $db->get_previous_exhibition_id($uid);
-        if ($previous_exhibition_id == $exhibition_id) {
+        $qrcheck->insert_path($qrcheck->exhibition_id, 2);
+        header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+        exit();
+
+    case 1: //退場中
+        $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
+
+        if ($previous_exhibition_id == $qrcheck->exhibition_id) {
+            header("Location: /qr/select.php?exhibition_id={$_GET['exhibition_id']}&uid={$_GET['uid']}");
+            exit();
         }
-    case 2:
+
+        $qrcheck->insert_path($qrcheck->exhibition_id, 2);
+        header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+        exit();
+
+    case 2: //入場中
+        $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
+
+        if ($previous_exhibition_id != $qrcheck->exhibition_id) {
+            header("Location: /qr/select.php?exhibition_id={$_GET['exhibition_id']}&uid={$_GET['uid']}");
+            exit();
+        }
+
+        $qrcheck->insert_path($qrcheck->exhibition_id, 1);
+        header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+        exit();
     }
 }

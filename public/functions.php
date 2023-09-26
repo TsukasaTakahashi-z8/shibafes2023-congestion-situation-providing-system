@@ -1,5 +1,5 @@
 <?php
-
+require $_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php";
 use Hashids\Hashids;
 
 class DBControlClass
@@ -151,6 +151,11 @@ class QRCheckClass extends DBControlClass
 
     public function __construct($uid, $exhibition_id)
     {
+        \Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT'])->load();
+
+        $this->dbset();
+        $this->connect();
+
         if (isset($uid)) {
             $this->uid = $this->get_uid($uid);
         }
@@ -158,23 +163,20 @@ class QRCheckClass extends DBControlClass
         if (isset($exhibition_id)) {
             $this->exhibition_id = $this->get_exhibition_id($exhibition_id);
         }
-
-        $this->dbset();
-        $this->connect();
     }
 
-    private function get_uid(): int
+    private function get_uid($uid): int
     {
         $hashids = new Hashids($_ENV['SALT'], 8, "23456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ");
-        $id = $hashids->decode($this->uid);
+        $id = $hashids->decode($uid);
 
         return intval($id[0]);
     }
 
-    private function get_exhibition_id(): int
+    private function get_exhibition_id($exhibition_id): int
     {
-        $hashids = new Hashids($_ENV['SALT'], 6, "23456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ");
-        $id = $hashids->decode($this->uid);
+        $hashids = new Hashids($_ENV['SALT'], 4, "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ");
+        $id = $hashids->decode($exhibition_id);
 
         return intval($id[0]);
     }
@@ -189,9 +191,11 @@ class QRCheckClass extends DBControlClass
     {
         $result = $this->execute("SELECT exhibition_id FROM path WHERE uid = :uid", ['uid' => $this->uid]);
         $list = $result->fetchAll();
-        return $list[$result->rowCount -1]['exhibition_id'];
+        return $list[$result->rowCount() -1]['exhibition_id'];
     }
 
-    public function in_exhibition(){
+    public function insert_path($exhibition_id, $flag){
+        $this->execute("INSERT INTO path (uid, exhibition_id, flag) VALUES(:uid, :exhibition_id, :flag)", ['uid' => $this->uid, 'exhibition_id' => $exhibition_id, 'flag' => $flag]);
+        $this->execute("UPDATE visitor SET status = :flag WHERE uid = :uid", ['uid' => $this->uid, 'flag' => $flag]);
     }
 }
