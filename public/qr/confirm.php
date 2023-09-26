@@ -8,15 +8,17 @@ if (isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
     switch ($qrcheck->get_status($qrcheck->uid)) {
         case 0:
             $qrcheck->insert_path($qrcheck->exhibition_id, 2);
-            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}&result=in");
             exit();
+            break;
 
         case 1: //退場中
             $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
 
             $qrcheck->insert_path($qrcheck->exhibition_id, 2);
-            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}&result=in");
             exit();
+            break;
 
         case 2: //入場中
             $previous_exhibition_id = $qrcheck->get_previous_exhibition_id($qrcheck->uid);
@@ -27,7 +29,8 @@ if (isset($_GET['uid']) && isset($_GET['exhibition_id'])) {
             }
 
             $qrcheck->insert_path($qrcheck->exhibition_id, 1);
-            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}");
+            header("Location: /qr/index.php?exhibition_id={$_GET['exhibition_id']}&result=out");
             exit();
+            break;
     }
 }

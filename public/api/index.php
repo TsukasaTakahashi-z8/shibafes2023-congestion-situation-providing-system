@@ -9,16 +9,16 @@ if (isset($_GET['k'])){
     $db = new DBControlClass();
 
     switch($_GET['k']) {
-    case "exhibition_list":
-        $num_list = $db->get_exhibition_list();
+        case "exhibition_list":
+            $num_list = $db->get_exhibition_list();
+            $json_data = json_encode($num_list, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            print $json_data;
+            break;
 
-        $json_data = json_encode($num_list, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        print $json_data;
-
-    case "num_list":
-        $num_list = $db->get_exhibition_num_list();
-
-        $json_data = json_encode($num_list, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        print $json_data;
+        case "num_list":
+            $num_list = $db->get_exhibition_num_list();
+            $json_data = json_encode($num_list, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            print $json_data;
+            break;
     }
 }

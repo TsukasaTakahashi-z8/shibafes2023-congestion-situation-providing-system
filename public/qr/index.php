@@ -1,3 +1,15 @@
+<?php
+require $_SERVER['DOCUMENT_ROOT']."/functions.php";
+
+if (empty($_GET['result'])) {
+    $qrcheck = new QRCheckClass(null, $_GET['exhibition_id']);
+    $title = $qrcheck->get_exhibition_list()[$qrcheck->exhibition_id]['title'];
+    if (empty($title)) {
+        $title = "企画IDが異なります。<br>メールアドレスから、正しいURLを開いてください。";
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,11 +18,21 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script> 
     <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
+    <?php
+        if ($_GET['result'] == "in"){
+            echo "<script type='text/javascript'>alert('入場処理完了')</script>";
+            $title = "引き続きスキャンしてください。";
+        }
+        if ($_GET['result'] == "out"){
+            echo "<script type='text/javascript'>alert('退場処理完了')</script>";
+            $title = "引き続きスキャンしてください。";
+        }
+?>
 </head>
 <body>
     <div id="particles-js"></div>
     <h1>来場者統計システム</h1>
-    <h2>てっけん</h2>
+    <h2><?php echo $title; ?></h2>
     <div id="loadingMessage">🎥 カメラのアクセスが許可されていません。<br> (このサイトのカメラへのアクセスを許可してください。)<br>許可をしてもこの表示が出る場合は、他のアプリケーションでカメラが使用されていないか、確認してください。</div>
     <canvas id="canvas" hidden></canvas>
     <div id="output" hidden>
