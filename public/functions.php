@@ -21,17 +21,18 @@ class DBControlClass
         $this->dsn = null;
     }
 
-    private function dbset()
+    protected function dbset()
     {
-        require '../vendor/autoload.php';
-        \Dotenv\Dotenv::createImmutable(__DIR__)->load();
+        require $_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php";
+
+        \Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT'])->load();
 
         $this->dsn = "mysql:dbname=" . $_ENV['DB_NAME'] . ";host=" . $_ENV['DB_HOST'] . ";charset=utf8mb4";
         $this->db_user = $_ENV['DB_USER'];
         $this->db_password = $_ENV['DB_PASSWORD'];
     }
 
-    private function connect()
+    protected function connect()
     {
         $options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -107,71 +108,90 @@ class DBControlClass
         }
     }
 
-
-    public function select($q)
+    protected function execute($q, $array)
     {
         try {
-            $res = $this->dbh->query($q);
-            return $res->fetchAll();
+            $sth = $this->dbh->prepare($q);
+            $sth->execute($array);
+            return $sth;
         } catch (PDOException $e) {
-            return $e->getMessage();
+            echo $e->getMessage();
             die();
         }
     }
+
 
     public function get_exhibition_num_list()
     {
         try {
             $res = $this->dbh->query("SELECT * FROM exhibition WHERE 1;");
-            $number_of_rows = $res->rowCount();
-            for ($i = 0; $i < $number_of_rows; $i++) {
+            $amount_of_exhibitions = $res->rowCount();
+
+            $array = array();
+
+            for ($i = 1; $i <= $amount_of_exhibitions; $i++) {
+                $in = $this->execute("SELECT * FROM path WHERE exhibition_id = :exhibition_id AND flag = 2", ['exhibition_id' => $i])->rowCount();
+                $out = $this->execute("SELECT * FROM path WHERE exhibition_id = :exhibition_id AND flag = 1", ['exhibition_id' => $i])->rowCount();
+                $array[$i] = $in - $out;
             }
+
+            return $array;
         } catch (PDOException $e) {
-            return $e->getMessage();
+            echo $e->getMessage();
             die();
         }
     }
-
-    public function get_status($uid)
-    {
-        try {
-            $sth = $this->dbh->prepare("SELECT status FROM visitor WHERE uid = :uid");
-            $sth->execute(['uid' => $uid]);
-
-            return $sth->fetchAll()[0]['status'];
-        } catch (PDOException $e) {
-            return $e->getMessage();
-            die();
-        }
-    }
-
-    public function get_previous_exhibition_id($uid) {
-        echo $uid;
-    }
-
 }
 
 
-class UidClass extends DBControlClass
+class QRCheckClass extends DBControlClass
 {
     public $uid = null;
+    public $exhibition_id = null;
 
-    public function __construct($uid)
+    public function __construct($uid, $exhibition_id)
     {
-        require '../vendor/autoload.php';
-        \Dotenv\Dotenv::createImmutable(__DIR__)->load();
-        \Dotenv\Dotenv::createImmutable(__DIR__.'/..')->load();
-
         if (isset($uid)) {
-            $this->uid = $uid;
+            $this->uid = $this->get_uid($uid);
         }
+
+        if (isset($exhibition_id)) {
+            $this->exhibition_id = $this->get_exhibition_id($exhibition_id);
+        }
+
+        $this->dbset();
+        $this->connect();
     }
 
-    public function get_id(): int
+    private function get_uid(): int
     {
         $hashids = new Hashids($_ENV['SALT'], 8, "23456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ");
         $id = $hashids->decode($this->uid);
 
         return intval($id[0]);
+    }
+
+    private function get_exhibition_id(): int
+    {
+        $hashids = new Hashids($_ENV['SALT'], 6, "23456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ");
+        $id = $hashids->decode($this->uid);
+
+        return intval($id[0]);
+    }
+
+    public function get_status():int
+    {
+        $result = $this->execute("SELECT status FROM visitor WHERE uid = :uid", ['uid' => $this->uid]);
+        return $result->fetchAll()[0]['status'];
+    }
+
+    public function get_previous_exhibition_id(): int
+    {
+        $result = $this->execute("SELECT exhibition_id FROM path WHERE uid = :uid", ['uid' => $this->uid]);
+        $list = $result->fetchAll();
+        return $list[$result->rowCount -1]['exhibition_id'];
+    }
+
+    public function in_exhibition(){
     }
 }

@@ -11,6 +11,8 @@ if (isset($_GET['k'])){
     switch($_GET['k']) {
     case "num_list":
         $num_list = $db->get_exhibition_num_list();
+
         $json_data = json_encode($num_list, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         print $json_data;
+    }
 }
