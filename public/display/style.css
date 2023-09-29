@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700;900&display=swap');
+
+body {
+    color: #252A34;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+body::-webkit-scrollbar{
+    display:none;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+div {
+    border: 0px solid #000000;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.floor {
+    display: flex;
+    padding: 0;
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+}
+
+.blue-room-row, .yellow-room-row, .center-room-row{
+    padding: 0;
+    display: flex;
+}
+
+.center-room-row {
+    height: 300px;
+}
+
+.center-row-blue-side, .center-row-yellow-side {
+    height: 50px;
+}
+
+.left-line {
+    padding: 0;
+    width: 80px;
+}
+
+.classroom {
+    width: 200px;
+    height: 150px;
+    margin: 10px;
+    background-color: #EAEAEA; 
+}
+
+.center-stair, .blue-stair, .yellow-stair {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.blue-stair {
+    height: 120px;
+    margin-top: 130px;
+    margin-bottom: 0;
+    margin-right: 10px;
+    background-color: gray;
+    color: #ffffff;
+}
+
+.yellow-stair {
+    height: 120px;
+    bottom: 0;
+    margin-top: 240px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    background-color: gray;
+    color: #ffffff;
+}
+
+.center-rooms {
+    margin-left: 80px;
+    margin-right: 0;
+    height: 100%;
+    width: 780px;
+    display: flex;
+}
+
+.ensyuuroom {
+    height: 130px;
+    width: 100px;
+    margin: 10px;
+    margin-bottom: 20px;
+    background-color: #EAEAEA; 
+}
+
+.teachersroom {
+    height: 280px;
+    width: 540px;
+    margin: 10px;
+    background-color: gray;
+}
+
+.men-toilet, .women-toilet {
+    width: 100px;
+    height: 80px;
+    margin: 10px;
+    font-weight: 600;
+    background-color: gray;
+    text-align: center;
+}
+
+.men-toilet {
+    background-color: #08D9D6;
+}
+
+.women-toilet {
+    margin-top: 120px;
+    margin-bottom: 0;
+    color: #EAEAEA;
+    background-color: #FF2E63;
+}
+
+.center-stair {
+    margin-left: 120px;
+    width: 100px;
+    height: 160px;
+    margin-top: 70px;
+    background-color: gray;
+    color: #ffffff;
+}
+
+.mainarena {
+    height: 720px;
+    width: 200px;
+    margin: 10px;
+    margin-left: 40px;
+    background-color: #EAEAEA;
+}
+
+.subarena {
+    height: 720px;
+    width: 100px;
+    margin: 10px;
+    margin-left: 40px;
+    background-color: #EAEAEA;
+}
+
+.hall {
+    height: 720px;
+    width: 100px;
+    margin: 10px;
+    margin-left: 40px;
+    background-color: #EAEAEA;
+}
+
+.material-symbols-outlined {
+    position: fixed;
+    top: 490px;
+    left: 1030px;
+    z-index: 99999;
+    color: #FF2E63;
+    rotate: 90deg;
+    border-bottom: 4px solid#252A34;
+}
